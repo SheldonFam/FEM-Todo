@@ -1,21 +1,22 @@
-import { BsMoon } from "react-icons/bs";
+import { BsMoonFill } from "react-icons/bs";
 
-const Header = () => {
+export const Header = () => {
   return (
-    <header
-      className="flex h-48 text-base font-Josefin"
-      style={{
-        backgroundImage: "url(/bg-mobile-dark.jpg)",
-        backgroundRepeat: "no-repeat",
-        // height: "200px",
-      }}
-    >
-      <nav className="flex justify-between w-screen h-10 items-center px-6 mt-11 mb-8">
-        <h1 className="bold text-white text-2xl">TODO</h1>
-        <BsMoon className="text-white" />
-      </nav>
+    <header className="flex h-52 text-base font-Josefin">
+      <div
+        style={{
+          backgroundImage: "url(/bg-desktop-light.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
+        }}
+      >
+        <nav className="flex justify-between w-screen h-10 items-center px-6 mt-11 mb-8 md:px-96">
+          <h1 className="bold text-white text-2xl">TODO</h1>
+          <button>
+            <BsMoonFill className="text-white" />
+          </button>
+        </nav>
+      </div>
     </header>
   );
 };
-
-export default Header;
