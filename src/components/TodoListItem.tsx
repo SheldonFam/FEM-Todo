@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { HiXMark } from "react-icons/hi2";
 
 type Todo = {
@@ -22,28 +22,24 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
   toggleComplete,
   onRemoveTodo,
 }) => {
-  //   const [isEditOn, setIsEditOn] = useState<boolean>(false);
-  const [inputText, setInputText] = useState<string>(todo.text);
-
-  const onDelete = () => {
-    onRemoveTodo(todo);
-  };
-
   return (
-    <li className="list-none flex-row">
+    <li className="list-none flex flex-row items-center w-full border p-3 first:rounded-t-md">
       <input
         type="checkbox"
-        className="mr-3 rounded-full"
+        className="mr-1 rounded-full cursor-pointer"
         onClick={() => toggleComplete(todo)}
       />
       <input
-        className="edit-input"
+        className="w-full border-none active:border-none focus:border-none"
         type="text"
-        value={inputText}
-        onChange={() => console.log("value")}
+        value={todo.text}
+        disabled
       />
-      <button className="opacity-0 hover:opacity-100" onClick={onDelete}>
-        <HiXMark className="text-3xl" />
+      <button
+        className="opacity-0 hover:opacity-100"
+        onClick={() => onRemoveTodo(todo)}
+      >
+        <HiXMark className="text-2xl text-dark-grayish-blue" />
       </button>
     </li>
   );

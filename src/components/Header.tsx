@@ -6,18 +6,29 @@ import { ThemeContext } from "../context/Theme";
 export const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+  // Define the background images for light and dark themes
+  const lightBgImage = "url(/bg-desktop-light.jpg)";
+  const darkBgImage = "url(/bg-desktop-dark.jpg)";
+
+  // Set the background image based on the current theme
+  const bgImage = theme === "light" ? lightBgImage : darkBgImage;
+
   return (
-    <header className="flex h-52 text-base font-Josefin">
+    <header className="flex h-52 text-base font-Josefin font-bold">
       <div
         style={{
-          backgroundImage: "url(/bg-desktop-light.jpg)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "100% 100%",
+          backgroundImage: bgImage,
         }}
+        className="bg-no-repeat bg-center bg-cover"
       >
         <nav className="flex justify-between w-screen h-10 items-center px-6 mt-11 mb-8 md:px-96">
           <h1 className="bold text-white text-2xl">TODO</h1>
-          <button onClick={toggleTheme}>
+          <button
+            onClick={toggleTheme}
+            className={`transition-transform duration-500 ${
+              theme === "light" ? "rotate-0" : "rotate-90"
+            }`}
+          >
             {theme === "light" ? (
               <BsMoonFill className="text-white" />
             ) : (

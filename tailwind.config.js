@@ -6,6 +6,23 @@ module.exports = {
       fontFamily: {
         Josefin: ["Josefin Sans", "sans-serif"],
       },
+      fontSize: {
+        base: "18px",
+      },
+      fontWeight: {
+        normal: 400,
+        bold: 700,
+      },
+      colors: {
+        "bright-blue": "hsl(220, 98%, 61%)",
+        "dark-blue": "hsl(235, 21%, 11%)",
+        "dark-desaturated-blue": "hsl(235, 24%, 19%)",
+        "light-grayish-blue": "hsl(234, 39%, 85%)",
+        "hover-light-grayish-blue": "hsl(236, 33%, 92%)",
+        "dark-grayish-blue": "hsl(234, 11%, 52%)",
+        "v-dark-grayish-blue": "hsl(233, 14%, 35%)",
+        "vv-dark-grayish-blue": "hsl(237, 14%, 26%)",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

@@ -23,7 +23,7 @@ type FilterType = "all" | "active" | "completed";
 const App = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [filter, setFilter] = useState<FilterType>("all");
-  console.log(todos);
+
   //add a todo
   const handleAdd: AddTodo = (newTodo) => {
     if (newTodo) {
@@ -34,7 +34,7 @@ const App = () => {
   //delete todo, btn function
   const removeTodo: RemoveTodo = (todoToRemove) => {
     let updatedTodos: Array<Todo> = todos.filter(
-      (todo) => todo.text !== todoToRemove.text
+      (todo) => todo !== todoToRemove
     );
     setTodos(updatedTodos);
   };
@@ -57,7 +57,7 @@ const App = () => {
     } else if (filter === "completed") {
       return todo.completed;
     }
-    return true; // "all" filter
+    return todo; // "all" filter
   });
 
   const handleClearCompleted = () => {
@@ -65,8 +65,18 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
+  const counter = (
+    <>
+      {filter === "completed"
+        ? `${filteredTodos.filter((todo) => todo.completed).length} items left`
+        : `${
+            filteredTodos.filter((todo) => !todo.completed).length
+          } items left`}
+    </>
+  );
+
   return (
-    <div>
+    <div className="font-Josefin font-normal text-base">
       <ThemeProvider>
         <Header />
         <TodoInput addTodo={handleAdd} />
@@ -77,6 +87,7 @@ const App = () => {
           filter={filter}
           setFilter={setFilter}
           handleClearCompleted={handleClearCompleted}
+          counter={counter}
         />
         <Footer />
       </ThemeProvider>

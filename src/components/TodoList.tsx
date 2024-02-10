@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { TodoListItem } from "./TodoListItem";
 
 type ToggleComplete = (selectedTodo: Todo) => void;
@@ -9,13 +9,17 @@ type Todo = {
   text: string;
   completed: boolean;
 };
+
+type Filter = "all" | "active" | "completed";
+
 interface TodoListProps {
   todos: Array<Todo>;
   toggleComplete: ToggleComplete;
   onRemoveTodo: RemoveTodo;
-  filter: "all" | "active" | "completed";
-  setFilter: (filter: "all" | "active" | "completed") => void;
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
   handleClearCompleted: () => void;
+  counter: ReactNode;
 }
 
 export const TodoList: React.FC<TodoListProps> = ({
@@ -25,19 +29,11 @@ export const TodoList: React.FC<TodoListProps> = ({
   filter,
   setFilter,
   handleClearCompleted,
+  counter,
 }) => {
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") {
-      return !todo.completed;
-    } else if (filter === "completed") {
-      return todo.completed;
-    }
-    return true; // "all" filter
-  });
-
   return (
     <div className="w-full px-6 md:px-96">
-      <ul className="flex items-center border py-3 px-3 justify-between flex-col">
+      <ul className="flex items-center justify-between flex-col">
         {todos.map((todo) => (
           <TodoListItem
             key={todo.id}
@@ -48,21 +44,35 @@ export const TodoList: React.FC<TodoListProps> = ({
         ))}
       </ul>
       <div className="flex justify-between py-4 px-4 border text-xs md:text-base">
-        <span>{`${
-          todos.filter((todo) => !todo.completed).length
-        } items left`}</span>
+        <span>{counter}</span>
         <div className="flex justify-center ">
-          <button className="px-2" onClick={() => setFilter("all")}>
+          <button
+            className={`px-2 font-bold hover:text-dark-blue focus:text-bright-blue ${
+              filter === "all" ? "text-blue-500" : "text-dark-grayish-blue"
+            }`}
+            onClick={() => setFilter("all")}
+          >
             All
           </button>
-          <button className="px-2" onClick={() => setFilter("active")}>
+          <button
+            className="px-2 font-bold text-dark-grayish-blue hover:text-dark-blue focus:text-bright-blue"
+            onClick={() => setFilter("active")}
+          >
             Active
           </button>
-          <button className="px-2" onClick={() => setFilter("completed")}>
+          <button
+            className="px-2 font-bold text-dark-grayish-blue hover:text-dark-blue focus:text-bright-blue"
+            onClick={() => setFilter("completed")}
+          >
             Completed
           </button>
         </div>
-        <button onClick={handleClearCompleted}>Clear Completed</button>
+        <button
+          onClick={handleClearCompleted}
+          className="text-dark-grayish-blue hover:text-dark-blue"
+        >
+          Clear Completed
+        </button>
       </div>
     </div>
   );
