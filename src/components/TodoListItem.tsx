@@ -48,12 +48,3 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
     </li>
   );
 };
-/* <div className="flex justify-between py-4 px-4 border text-xs md:text-base">
-        <span>0 items left</span>
-        <div className="flex justify-center ">
-          <button className="px-2">All</button>
-          <button className="px-2">Active</button>
-          <button className="px-2">Completed</button>
-        </div>
-        <button>Clear Completed</button>
-      </div> */

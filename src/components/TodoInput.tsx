@@ -16,7 +16,7 @@ export const TodoInput: React.FC<TodoInputProps> = ({ addTodo }) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     addTodo(newTodo);
-    setNewTodo("");
+    setNewTodo(""); //reset to empty state
   };
 
   return (
