@@ -26,12 +26,16 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
     <li className="list-none flex flex-row items-center w-full border p-3 first:rounded-t-md">
       <input
         type="checkbox"
-        className="mr-1 rounded-full cursor-pointer"
-        onClick={() => toggleComplete(todo)}
+        className="mr-1 rounded-full cursor-pointer w-5 h-5 text-bg-checked"
+        checked={todo.completed}
+        onChange={() => toggleComplete(todo)}
       />
       <input
-        className="w-full border-none active:border-none focus:border-none"
+        className={`w-full border-none active:border-none focus:border-none ${
+          todo.completed ? "line-through" : ""
+        }`}
         type="text"
+        checked={todo.completed}
         value={todo.text}
         disabled
       />

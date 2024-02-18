@@ -17,12 +17,8 @@ type Todo = {
   completed: boolean;
 };
 
-//the button?
-type FilterType = "all" | "active" | "completed";
-
 const App = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
-  const [filter, setFilter] = useState<FilterType>("all");
 
   //add a todo
   const handleAdd: AddTodo = (newTodo) => {
@@ -34,7 +30,7 @@ const App = () => {
   //delete todo, btn function
   const removeTodo: RemoveTodo = (todoToRemove) => {
     let updatedTodos: Array<Todo> = todos.filter(
-      (todo) => todo !== todoToRemove
+      (todo) => todo.id !== todoToRemove.id
     );
     setTodos(updatedTodos);
   };
@@ -42,7 +38,7 @@ const App = () => {
   //checkbox, click then mark as complete
   const toggleComplete: ToggleComplete = (selectedTodo) => {
     const updatedTodos = todos.map((todo) => {
-      if (todo === selectedTodo) {
+      if (todo.id === selectedTodo.id) {
         return { ...todo, completed: !todo.completed };
       }
       return todo;
@@ -50,45 +46,24 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
-  //filter the todo based on the type?
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") {
-      return !todo.completed;
-    } else if (filter === "completed") {
-      return todo.completed;
-    }
-    return todo; // "all" filter
-  });
-
   const handleClearCompleted = () => {
     const updatedTodos = todos.filter((todo) => !todo.completed);
     setTodos(updatedTodos);
   };
 
-  const counter = (
-    <>
-      {filter === "completed"
-        ? `${filteredTodos.filter((todo) => todo.completed).length} items left`
-        : `${
-            filteredTodos.filter((todo) => !todo.completed).length
-          } items left`}
-    </>
-  );
-
   return (
     <div className="font-Josefin font-normal text-base">
       <ThemeProvider>
         <Header />
-        <TodoInput addTodo={handleAdd} />
-        <TodoList
-          todos={filteredTodos}
-          toggleComplete={toggleComplete}
-          onRemoveTodo={removeTodo}
-          filter={filter}
-          setFilter={setFilter}
-          handleClearCompleted={handleClearCompleted}
-          counter={counter}
-        />
+        <div className="mx-80">
+          <TodoInput addTodo={handleAdd} />
+          <TodoList
+            todos={todos}
+            toggleComplete={toggleComplete}
+            onRemoveTodo={removeTodo}
+            handleClearCompleted={handleClearCompleted}
+          />
+        </div>
         <Footer />
       </ThemeProvider>
     </div>

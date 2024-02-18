@@ -23,6 +23,11 @@ module.exports = {
         "v-dark-grayish-blue": "hsl(233, 14%, 35%)",
         "vv-dark-grayish-blue": "hsl(237, 14%, 26%)",
       },
+
+      screens: {
+        mobile: { max: "375px" },
+        desktop: { max: "1440px" },
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

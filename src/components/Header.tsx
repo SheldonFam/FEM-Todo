@@ -19,9 +19,9 @@ export const Header = () => {
         style={{
           backgroundImage: bgImage,
         }}
-        className="bg-no-repeat bg-center bg-cover"
+        className="bg-no-repeat bg-center bg-cover w-full"
       >
-        <nav className="flex justify-between w-screen h-10 items-center px-6 mt-11 mb-8 md:px-96">
+        <nav className="flex justify-between w-full items-center mt-11 mb-8 ">
           <h1 className="bold text-white text-2xl">TODO</h1>
           <button
             onClick={toggleTheme}

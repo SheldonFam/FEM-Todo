@@ -20,13 +20,13 @@ export const TodoInput: React.FC<TodoInputProps> = ({ addTodo }) => {
   };
 
   return (
-    <div className="pb-3">
-      <form onSubmit={handleSubmit} className="px-6 relative md:px-72 lg:px-96">
+    <div className="pb-3 w-full">
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="relative rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3">
             <input
               type="checkbox"
-              className="mr-2 rounded-full"
+              className="rounded-full w-5 h-5"
               disabled
             ></input>
           </div>
