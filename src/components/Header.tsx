@@ -9,19 +9,21 @@ export const Header = () => {
   // Define the background images for light and dark themes
   const lightBgImage = "url(/bg-desktop-light.jpg)";
   const darkBgImage = "url(/bg-desktop-dark.jpg)";
+  const lightMobileBgImage = "url(/bg-mobile-light.jpg)";
+  const darkMobileBgImage = "url(/bg-mobile-dark.jpg)";
 
   // Set the background image based on the current theme
   const bgImage = theme === "light" ? lightBgImage : darkBgImage;
+  const mobileBgImage =
+    theme === "light" ? lightMobileBgImage : darkMobileBgImage;
 
   return (
-    <header className="flex h-52 text-base font-Josefin font-bold">
+    <header className="flex  text-base font-Josefin font-bold h-130px w-full">
       <div
-        style={{
-          backgroundImage: bgImage,
-        }}
-        className="bg-no-repeat bg-center bg-cover w-full"
+        style={{ backgroundImage: bgImage }}
+        className="bg-no-repeat bg-center bg-cover w-full h-[200px]"
       >
-        <nav className="flex justify-between w-full items-center mt-11 mb-8 ">
+        <nav className="flex justify-between w-full items-center">
           <h1 className="bold text-white text-2xl">TODO</h1>
           <button
             onClick={toggleTheme}

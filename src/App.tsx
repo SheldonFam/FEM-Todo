@@ -52,10 +52,10 @@ const App = () => {
   };
 
   return (
-    <div className="font-Josefin font-normal text-base">
+    <div className="font-Josefin font-normal text-base w-full h-full">
       <ThemeProvider>
         <Header />
-        <div className="mx-80">
+        <div>
           <TodoInput addTodo={handleAdd} />
           <TodoList
             todos={todos}
