@@ -1,72 +1,87 @@
 import { Header } from "./components/Header";
 import { TodoInput } from "./components/TodoInput";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { TodoList } from "./components/TodoList";
-import { Footer } from "./components/Footer";
-import { ThemeProvider } from "./context/Theme";
+import { ThemeProvider, ThemeContext } from "./context/Theme";
 
-// function??
-type AddTodo = (newTodo: string) => void;
-type RemoveTodo = (todoToRemove: Todo) => void;
-type ToggleComplete = (selectedTodo: Todo) => void;
-
-//inside a todo have 3 item
-type Todo = {
+interface Todo {
   id: number;
   text: string;
   completed: boolean;
+}
+
+type TodoActions = {
+  addTodo: (newTodo: string) => void;
+  removeTodo: (todoToRemove: Todo) => void;
+  toggleComplete: (selectedTodo: Todo) => void;
+  clearCompleted: () => void;
 };
 
 const App = () => {
-  const [todos, setTodos] = useState<Array<Todo>>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const { theme } = useContext(ThemeContext);
 
-  //add a todo
-  const handleAdd: AddTodo = (newTodo) => {
-    if (newTodo) {
-      setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
-    }
-  };
-
-  //delete todo, btn function
-  const removeTodo: RemoveTodo = (todoToRemove) => {
-    let updatedTodos: Array<Todo> = todos.filter(
-      (todo) => todo.id !== todoToRemove.id
-    );
-    setTodos(updatedTodos);
-  };
-
-  //checkbox, click then mark as complete
-  const toggleComplete: ToggleComplete = (selectedTodo) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === selectedTodo.id) {
-        return { ...todo, completed: !todo.completed };
+  const todoActions: TodoActions = {
+    addTodo: (newTodo) => {
+      if (newTodo) {
+        setTodos([
+          ...todos,
+          { id: Date.now(), text: newTodo, completed: false },
+        ]);
       }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  };
+    },
 
-  const handleClearCompleted = () => {
-    const updatedTodos = todos.filter((todo) => !todo.completed);
-    setTodos(updatedTodos);
+    removeTodo: (todoToRemove) => {
+      setTodos(todos.filter((todo) => todo.id !== todoToRemove.id));
+    },
+
+    toggleComplete: (selectedTodo) => {
+      setTodos(
+        todos.map((todo) =>
+          todo.id === selectedTodo.id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        )
+      );
+    },
+
+    clearCompleted: () => {
+      setTodos(todos.filter((todo) => !todo.completed));
+    },
   };
 
   return (
-    <div className="font-Josefin font-normal text-base w-full h-full">
-      <ThemeProvider>
-        <Header />
-        <div>
-          <TodoInput addTodo={handleAdd} />
-          <TodoList
-            todos={todos}
-            toggleComplete={toggleComplete}
-            onRemoveTodo={removeTodo}
-            handleClearCompleted={handleClearCompleted}
-          />
+    <ThemeProvider>
+      <div className="min-h-screen font-Josefin font-normal text-base bg-[#FAFAFA] dark:bg-[#171823]">
+        <div className="relative">
+          {/* Background Image Layer */}
+          <div
+            className={`absolute inset-x-0 top-0 h-[200px] md:h-[300px] bg-cover bg-no-repeat ${
+              theme === "light"
+                ? "bg-[url('/images/bg-mobile-light.jpg')] md:bg-[url('/images/bg-desktop-light.jpg')]"
+                : "bg-[url('/images/bg-mobile-dark.jpg')] md:bg-[url('/images/bg-desktop-dark.jpg')]"
+            }`}
+          ></div>
+
+          {/* Content Layer */}
+          <div className="relative z-20">
+            <Header />
+            <main className="max-w-[540px] mx-auto px-6">
+              <TodoInput addTodo={todoActions.addTodo} />
+              <TodoList
+                todos={todos}
+                toggleComplete={todoActions.toggleComplete}
+                onRemoveTodo={todoActions.removeTodo}
+                handleClearCompleted={todoActions.clearCompleted}
+              />
+              <p className="text-center text-[14px] text-[#9495A5] dark:text-[#5B5E7E] mt-10">
+                Drag and drop to reorder list
+              </p>
+            </main>
+          </div>
         </div>
-        <Footer />
-      </ThemeProvider>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 };
 

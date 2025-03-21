@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TodoListItem } from "./TodoListItem";
+import { ThemeContext } from "../context/Theme";
 
 type ToggleComplete = (selectedTodo: Todo) => void;
 type RemoveTodo = (todoToRemove: Todo) => void;
@@ -27,6 +28,7 @@ export const TodoList: React.FC<TodoListProps> = ({
   handleClearCompleted,
 }) => {
   const [filter, setFilter] = useState<Filter>("all");
+  const { theme } = useContext(ThemeContext);
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "active") {
@@ -44,84 +46,73 @@ export const TodoList: React.FC<TodoListProps> = ({
   const counter = (
     <>
       {filter === "completed"
-        ? `${todos.filter((todo) => todo.completed).length} items left`
+        ? `${todos.filter((todo) => todo.completed).length} completed items`
         : `${todos.filter((todo) => !todo.completed).length} items left`}
     </>
   );
 
   return (
-    <div className="w-full">
-      <ul className="flex items-center justify-between flex-col">
-        {filteredTodos.map((todo) => (
-          <TodoListItem
-            key={todo.id}
-            todo={todo}
-            toggleComplete={toggleComplete}
-            onRemoveTodo={onRemoveTodo}
-          />
-        ))}
-      </ul>
-      <div className="flex justify-between py-4 px-4 border text-xs md:text-base">
-        <span>{counter}</span>
-        <div className="hidden sm:flex justify-center">
-          <button
-            className={`px-2 font-bold hover:text-dark-blue ${
-              filter === "all" ? "text-bright-blue" : "text-dark-grayish-blue"
+    <div className="space-y-4">
+      <div
+        className={`relative w-full rounded-[5px] overflow-hidden shadow-[0_35px_50px_-15px_rgba(194,195,214,0.5)] dark:shadow-[0_35px_50px_-15px_rgba(0,0,0,0.5)] ${
+          theme === "light" ? "bg-white" : "bg-[#25273D]"
+        }`}
+      >
+        <ul className="divide-y divide-[#E3E4F1] dark:divide-[#393A4B]">
+          {filteredTodos.map((todo) => (
+            <TodoListItem
+              key={todo.id}
+              todo={todo}
+              toggleComplete={toggleComplete}
+              onRemoveTodo={onRemoveTodo}
+            />
+          ))}
+        </ul>
+
+        {todos.length > 0 && (
+          <div
+            className={`flex items-center justify-between px-5 py-4 text-[14px] border-t ${
+              theme === "light"
+                ? "bg-white text-[#9495A5] border-[#E3E4F1]"
+                : "bg-[#25273D] text-[#5B5E7E] border-[#393A4B]"
             }`}
-            onClick={() => handleFilterChange("all")}
           >
-            All
-          </button>
-          <button
-            className={`px-2 font-bold hover:text-dark-blue ${
-              filter === "active"
-                ? "text-bright-blue"
-                : "text-dark-grayish-blue"
-            }`}
-            onClick={() => handleFilterChange("active")}
-          >
-            Active
-          </button>
-          <button
-            className={`px-2 font-bold hover:text-dark-blue ${
-              filter === "completed"
-                ? "text-bright-blue"
-                : "text-dark-grayish-blue"
-            }`}
-            onClick={() => handleFilterChange("completed")}
-          >
-            Completed
-          </button>
-        </div>
-        <button
-          onClick={handleClearCompleted}
-          className="text-dark-grayish-blue hover:text-dark-blue"
-        >
-          Clear Completed
-        </button>
+            <span>{counter}</span>
+            <div className="flex items-center gap-5">
+              <button
+                className={`transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+                  filter === "all" ? "text-[#3A7CFD]" : ""
+                }`}
+                onClick={() => handleFilterChange("all")}
+              >
+                All
+              </button>
+              <button
+                className={`transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+                  filter === "active" ? "text-[#3A7CFD]" : ""
+                }`}
+                onClick={() => handleFilterChange("active")}
+              >
+                Active
+              </button>
+              <button
+                className={`transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+                  filter === "completed" ? "text-[#3A7CFD]" : ""
+                }`}
+                onClick={() => handleFilterChange("completed")}
+              >
+                Completed
+              </button>
+            </div>
+            <button
+              onClick={handleClearCompleted}
+              className="transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1]"
+            >
+              Clear Completed
+            </button>
+          </div>
+        )}
       </div>
-      {/* <div className="flex justify-center sm:hidden mt-2 border p-4">
-        <button
-          className={`px-2 font-bold hover:text-dark-blue focus:text-bright-blue ${
-            filter === "all" ? "text-blue-500" : "text-dark-grayish-blue"
-          }`}
-          // onClick={() => setFilter("all")}
-        >
-          All
-        </button>
-        <button
-          className="px-2 font-bold text-dark-grayish-blue hover:text-dark-blue focus:text-bright-blue"
-          // onClick={() => setFilter("active")}
-        >
-          Active
-        </button>
-        <button
-          className="px-2 font-bold text-dark-grayish-blue hover:text-dark-blue focus:text-bright-blue"
-          // onClick={() => setFilter("completed")}
-        >
-          Completed
-        </button>
-      </div> */}
     </div>
   );
 };

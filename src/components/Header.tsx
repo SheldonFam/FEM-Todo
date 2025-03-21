@@ -18,23 +18,20 @@ export const Header = () => {
     theme === "light" ? lightMobileBgImage : darkMobileBgImage;
 
   return (
-    <header className="flex  text-base font-Josefin font-bold h-130px w-full">
-      <div
-        style={{ backgroundImage: bgImage }}
-        className="bg-no-repeat bg-center bg-cover w-full h-[200px]"
-      >
+    <header className="w-full">
+      <div className="max-w-[540px] mx-auto px-6 pt-12 md:pt-16">
         <nav className="flex justify-between w-full items-center">
-          <h1 className="bold text-white text-2xl">TODO</h1>
+          <h1 className="text-3xl md:text-4xl tracking-[0.3em] uppercase text-white">
+            TODO
+          </h1>
           <button
             onClick={toggleTheme}
-            className={`transition-transform duration-500 ${
-              theme === "light" ? "rotate-0" : "rotate-90"
-            }`}
+            className="transition-transform duration-500 p-1 hover:opacity-80"
           >
             {theme === "light" ? (
-              <BsMoonFill className="text-white" />
+              <BsMoonFill className="text-white w-5 h-5 md:w-6 md:h-6" />
             ) : (
-              <BsSunFill className="text-white" />
+              <BsSunFill className="text-white w-5 h-5 md:w-6 md:h-6" />
             )}
           </button>
         </nav>
