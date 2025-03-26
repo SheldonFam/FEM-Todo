@@ -1,81 +1,67 @@
-import React, { useContext } from "react";
-import { HiXMark } from "react-icons/hi2";
-import { ThemeContext } from "../context/Theme";
-
-type Todo = {
+interface Todo {
   id: number;
   text: string;
   completed: boolean;
-};
-
-type ToggleComplete = (selectedTodo: Todo) => void;
-
-type RemoveTodo = (todoToRemove: Todo) => void;
+}
 
 interface TodoListItemProps {
   todo: Todo;
-  toggleComplete: ToggleComplete;
-  onRemoveTodo: RemoveTodo;
+  toggleComplete: (todo: Todo) => void;
+  onRemove: (todo: Todo) => void;
 }
 
-export const TodoListItem: React.FC<TodoListItemProps> = ({
+export const TodoListItem = ({
   todo,
   toggleComplete,
-  onRemoveTodo,
-}) => {
-  const { theme } = useContext(ThemeContext);
-
+  onRemove,
+}: TodoListItemProps) => {
   return (
-    <li
-      className={`flex items-center w-full px-5 py-4 group ${
-        theme === "light" ? "bg-white" : "bg-[#25273D]"
-      }`}
-    >
-      <div
+    <div className="group flex items-center px-5 h-[52px] md:h-[64px] bg-white dark:bg-[#25273D]">
+      <button
         onClick={() => toggleComplete(todo)}
-        className={`flex-shrink-0 w-5 h-5 mr-3 rounded-full border cursor-pointer transition-colors ${
+        className={`relative flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-full border-2 ${
           todo.completed
-            ? "bg-gradient-to-br from-[#57DDFF] to-[#C058F3] flex items-center justify-center border-none"
-            : theme === "light"
-            ? "border-[#E3E4F1] hover:border-[#C058F3]"
-            : "border-[#393A4B] hover:border-[#C058F3]"
+            ? "bg-gradient-to-br from-[#57DDFF] to-[#C058F3]"
+            : "border-[#E3E4F1] dark:border-[#393A4B]"
         }`}
       >
         {todo.completed && (
-          <svg
-            className="w-2.5 h-2.5 text-white"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
+          <svg width="11" height="9" xmlns="http://www.w3.org/2000/svg">
             <path
-              fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
+              fill="none"
+              stroke="#FFF"
+              strokeWidth="2"
+              d="M1 4.304L3.696 7l6-6"
             />
           </svg>
         )}
-      </div>
+        {!todo.completed && (
+          <span className="absolute inset-[1px] rounded-full bg-white dark:bg-[#25273D]" />
+        )}
+      </button>
+
       <span
-        className={`flex-grow text-[14px] ${
+        className={`flex-1 ml-3 md:ml-6 text-[12px] md:text-[18px] ${
           todo.completed
-            ? theme === "light"
-              ? "line-through text-[#D1D2DA]"
-              : "line-through text-[#4D5067]"
-            : theme === "light"
-            ? "text-[#494C6B]"
-            : "text-[#C8CBE7]"
+            ? "text-[#D1D2DA] dark:text-[#4D5067] line-through"
+            : "text-[#494C6B] dark:text-[#C8CBE7]"
         }`}
       >
         {todo.text}
       </span>
+
       <button
-        className={`opacity-0 group-hover:opacity-100 transition-opacity ml-2 ${
-          theme === "light" ? "text-[#494C6B]" : "text-[#5B5E7E]"
-        }`}
-        onClick={() => onRemoveTodo(todo)}
+        onClick={() => onRemove(todo)}
+        className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
       >
-        <HiXMark className="w-4 h-4" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+          <path
+            fill="#494C6B"
+            fillRule="evenodd"
+            d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
+          />
+        </svg>
       </button>
-    </li>
+    </div>
   );
 };

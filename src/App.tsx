@@ -19,7 +19,6 @@ type TodoActions = {
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const { theme } = useContext(ThemeContext);
 
   const todoActions: TodoActions = {
     addTodo: (newTodo) => {
@@ -52,36 +51,59 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen font-Josefin font-normal text-base bg-[#FAFAFA] dark:bg-[#171823]">
-        <div className="relative">
-          {/* Background Image Layer */}
-          <div
-            className={`absolute inset-x-0 top-0 h-[200px] md:h-[300px] bg-cover bg-no-repeat ${
-              theme === "light"
-                ? "bg-[url('/images/bg-mobile-light.jpg')] md:bg-[url('/images/bg-desktop-light.jpg')]"
-                : "bg-[url('/images/bg-mobile-dark.jpg')] md:bg-[url('/images/bg-desktop-dark.jpg')]"
-            }`}
-          ></div>
-
-          {/* Content Layer */}
-          <div className="relative z-20">
-            <Header />
-            <main className="max-w-[540px] mx-auto px-6">
-              <TodoInput addTodo={todoActions.addTodo} />
-              <TodoList
-                todos={todos}
-                toggleComplete={todoActions.toggleComplete}
-                onRemoveTodo={todoActions.removeTodo}
-                handleClearCompleted={todoActions.clearCompleted}
-              />
-              <p className="text-center text-[14px] text-[#9495A5] dark:text-[#5B5E7E] mt-10">
-                Drag and drop to reorder list
-              </p>
-            </main>
-          </div>
-        </div>
-      </div>
+      <AppContent todos={todos} todoActions={todoActions} />
     </ThemeProvider>
+  );
+};
+
+const AppContent = ({
+  todos,
+  todoActions,
+}: {
+  todos: Todo[];
+  todoActions: TodoActions;
+}) => {
+  // Import background images
+  const bgDesktopLight = "/bg-desktop-light.jpg";
+  const bgDesktopDark = "/bg-desktop-dark.jpg";
+  const bgMobileLight = "/bg-mobile-light.jpg";
+  const bgMobileDark = "/bg-mobile-dark.jpg";
+
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <section className="relative min-h-screen font-Josefin font-normal text-base bg-[#FAFAFA] dark:bg-[#171823]">
+      {/* Background Image Layer */}
+      <div className="absolute inset-x-0 top-0 h-[200px] overflow-hidden">
+        <img
+          src={theme === "light" ? bgMobileLight : bgMobileDark}
+          alt="background"
+          className="w-full h-full object-cover sm:hidden" // Mobile only
+        />
+        <img
+          src={theme === "light" ? bgDesktopLight : bgDesktopDark}
+          alt="background"
+          className="hidden sm:block w-full h-full object-cover" // Show only on screens ≥ 640px
+        />
+      </div>
+
+      {/* Content Layer */}
+      <main className="relative px-6 pt-12 max-w-[540px] mx-auto">
+        <Header />
+        <section className="mt-8 space-y-4">
+          <TodoInput addTodo={todoActions.addTodo} />
+          <TodoList
+            todos={todos}
+            toggleComplete={todoActions.toggleComplete}
+            onRemoveTodo={todoActions.removeTodo}
+            handleClearCompleted={todoActions.clearCompleted}
+          />
+          <p className="text-center text-[14px] text-[#9495A5] dark:text-[#5B5E7E] mt-10">
+            Drag and drop to reorder list
+          </p>
+        </section>
+      </main>
+    </section>
   );
 };
 

@@ -38,7 +38,7 @@ export const TodoInput: React.FC<TodoInputProps> = ({ addTodo }) => {
             id="text"
             value={newTodo}
             onChange={handleChange}
-            className={`block w-full pl-16 pr-4 py-4 rounded-[5px] text-[14px] shadow-[0_35px_50px_-15px_rgba(194,195,214,0.5)] dark:shadow-[0_35px_50px_-15px_rgba(0,0,0,0.5)] ${
+            className={`border-none block w-full pl-16 pr-4 py-4 rounded-[5px] text-[14px] shadow-[0_35px_50px_-15px_rgba(194,195,214,0.5)] dark:shadow-[0_35px_50px_-15px_rgba(0,0,0,0.5)] ${
               theme === "light"
                 ? "bg-white text-[#393A4B] placeholder-[#9495A5]"
                 : "bg-[#25273D] text-[#C8CBE7] placeholder-[#767992] border-none"

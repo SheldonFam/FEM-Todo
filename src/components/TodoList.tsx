@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { TodoListItem } from "./TodoListItem";
-import { ThemeContext } from "../context/Theme";
 
 type ToggleComplete = (selectedTodo: Todo) => void;
 type RemoveTodo = (todoToRemove: Todo) => void;
@@ -28,7 +27,6 @@ export const TodoList: React.FC<TodoListProps> = ({
   handleClearCompleted,
 }) => {
   const [filter, setFilter] = useState<Filter>("all");
-  const { theme } = useContext(ThemeContext);
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "active") {
@@ -43,75 +41,87 @@ export const TodoList: React.FC<TodoListProps> = ({
     setFilter(newFilter);
   };
 
-  const counter = (
-    <>
-      {filter === "completed"
-        ? `${todos.filter((todo) => todo.completed).length} completed items`
-        : `${todos.filter((todo) => !todo.completed).length} items left`}
-    </>
-  );
+  const activeTodosCount = todos.filter((todo) => !todo.completed).length;
 
   return (
-    <div className="space-y-4">
-      <div
-        className={`relative w-full rounded-[5px] overflow-hidden shadow-[0_35px_50px_-15px_rgba(194,195,214,0.5)] dark:shadow-[0_35px_50px_-15px_rgba(0,0,0,0.5)] ${
-          theme === "light" ? "bg-white" : "bg-[#25273D]"
-        }`}
-      >
-        <ul className="divide-y divide-[#E3E4F1] dark:divide-[#393A4B]">
-          {filteredTodos.map((todo) => (
-            <TodoListItem
-              key={todo.id}
-              todo={todo}
-              toggleComplete={toggleComplete}
-              onRemoveTodo={onRemoveTodo}
-            />
-          ))}
-        </ul>
+    <div className="bg-white dark:bg-[#25273D] rounded-[5px] shadow-md overflow-hidden">
+      <div className="divide-y divide-[#E3E4F1] dark:divide-[#393A4B]">
+        {filteredTodos.map((todo) => (
+          <TodoListItem
+            key={todo.id}
+            todo={todo}
+            toggleComplete={toggleComplete}
+            onRemove={onRemoveTodo}
+          />
+        ))}
+      </div>
 
-        {todos.length > 0 && (
-          <div
-            className={`flex items-center justify-between px-5 py-4 text-[14px] border-t ${
-              theme === "light"
-                ? "bg-white text-[#9495A5] border-[#E3E4F1]"
-                : "bg-[#25273D] text-[#5B5E7E] border-[#393A4B]"
+      <div className="flex items-center justify-between px-5 py-4 text-[12px] md:text-[14px] text-[#9495A5] dark:text-[#5B5E7E]">
+        <span>{activeTodosCount} items left</span>
+
+        <div className="hidden md:flex items-center gap-4 font-bold">
+          <button
+            className={`hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+              filter === "all" ? "text-[#3A7CFD]" : ""
             }`}
+            onClick={() => handleFilterChange("all")}
           >
-            <span>{counter}</span>
-            <div className="flex items-center gap-5">
-              <button
-                className={`transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
-                  filter === "all" ? "text-[#3A7CFD]" : ""
-                }`}
-                onClick={() => handleFilterChange("all")}
-              >
-                All
-              </button>
-              <button
-                className={`transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
-                  filter === "active" ? "text-[#3A7CFD]" : ""
-                }`}
-                onClick={() => handleFilterChange("active")}
-              >
-                Active
-              </button>
-              <button
-                className={`transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
-                  filter === "completed" ? "text-[#3A7CFD]" : ""
-                }`}
-                onClick={() => handleFilterChange("completed")}
-              >
-                Completed
-              </button>
-            </div>
-            <button
-              onClick={handleClearCompleted}
-              className="transition-colors hover:text-[#494C6B] dark:hover:text-[#E3E4F1]"
-            >
-              Clear Completed
-            </button>
-          </div>
-        )}
+            All
+          </button>
+          <button
+            className={`hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+              filter === "active" ? "text-[#3A7CFD]" : ""
+            }`}
+            onClick={() => handleFilterChange("active")}
+          >
+            Active
+          </button>
+          <button
+            className={`hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+              filter === "completed" ? "text-[#3A7CFD]" : ""
+            }`}
+            onClick={() => handleFilterChange("completed")}
+          >
+            Completed
+          </button>
+        </div>
+
+        <button
+          className="hover:text-[#494C6B] dark:hover:text-[#E3E4F1]"
+          onClick={handleClearCompleted}
+        >
+          Clear Completed
+        </button>
+      </div>
+
+      {/* Mobile Filter Buttons */}
+      <div className="md:hidden mt-4 bg-white dark:bg-[#25273D] rounded-[5px] shadow-md">
+        <div className="flex items-center justify-center gap-4 py-4 text-[14px] font-bold text-[#9495A5] dark:text-[#5B5E7E]">
+          <button
+            className={`hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+              filter === "all" ? "text-[#3A7CFD]" : ""
+            }`}
+            onClick={() => handleFilterChange("all")}
+          >
+            All
+          </button>
+          <button
+            className={`hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+              filter === "active" ? "text-[#3A7CFD]" : ""
+            }`}
+            onClick={() => handleFilterChange("active")}
+          >
+            Active
+          </button>
+          <button
+            className={`hover:text-[#494C6B] dark:hover:text-[#E3E4F1] ${
+              filter === "completed" ? "text-[#3A7CFD]" : ""
+            }`}
+            onClick={() => handleFilterChange("completed")}
+          >
+            Completed
+          </button>
+        </div>
       </div>
     </div>
   );
