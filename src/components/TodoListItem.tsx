@@ -1,22 +1,29 @@
+import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
+
 interface Todo {
   id: number;
   text: string;
   completed: boolean;
 }
-
 interface TodoListItemProps {
   todo: Todo;
   toggleComplete: (todo: Todo) => void;
   onRemove: (todo: Todo) => void;
+  dragHandleProps?: DraggableProvidedDragHandleProps | null;
 }
 
 export const TodoListItem = ({
   todo,
   toggleComplete,
   onRemove,
+  dragHandleProps,
 }: TodoListItemProps) => {
   return (
-    <div className="group flex items-center px-5 h-[52px] md:h-[64px] bg-white dark:bg-[#25273D]">
+    <div
+      className="group flex items-center px-5 h-[52px] md:h-[64px] bg-white dark:bg-[#25273D] cursor-move"
+      {...dragHandleProps}
+    >
+      {/* <div className="px-4 cursor-move text-[#CACDE8] dark:text-[#4D5067] hover:text-[#494C6B] dark:hover:text-[#E3E4F1]"></div> */}
       <button
         onClick={() => toggleComplete(todo)}
         className={`relative flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-full border-2 ${

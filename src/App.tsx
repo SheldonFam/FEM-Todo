@@ -16,7 +16,6 @@ type TodoActions = {
   toggleComplete: (selectedTodo: Todo) => void;
   clearCompleted: () => void;
 };
-
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
@@ -51,16 +50,18 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <AppContent todos={todos} todoActions={todoActions} />
+      <AppContent todos={todos} setTodos={setTodos} todoActions={todoActions} />
     </ThemeProvider>
   );
 };
 
 const AppContent = ({
   todos,
+  setTodos,
   todoActions,
 }: {
   todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   todoActions: TodoActions;
 }) => {
   // Import background images
@@ -70,6 +71,10 @@ const AppContent = ({
   const bgMobileDark = "/bg-mobile-dark.jpg";
 
   const { theme } = useContext(ThemeContext);
+
+  const handleReorder = (reorderedTodos: Todo[]) => {
+    setTodos(reorderedTodos);
+  };
 
   return (
     <section className="relative min-h-screen font-Josefin font-normal text-base bg-[#FAFAFA] dark:bg-[#171823]">
@@ -97,6 +102,7 @@ const AppContent = ({
             toggleComplete={todoActions.toggleComplete}
             onRemoveTodo={todoActions.removeTodo}
             handleClearCompleted={todoActions.clearCompleted}
+            onReorder={handleReorder}
           />
           <p className="text-center text-[14px] text-[#9495A5] dark:text-[#5B5E7E] mt-10">
             Drag and drop to reorder list
@@ -106,5 +112,4 @@ const AppContent = ({
     </section>
   );
 };
-
 export default App;
