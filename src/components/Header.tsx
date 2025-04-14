@@ -7,7 +7,7 @@ export const Header = () => {
 
   return (
     <header className="w-full">
-      <div className="max-w-[540px] mx-auto pt-12 ">
+      <div className="max-w-[540px] mx-auto pt-3">
         <nav className="flex justify-between w-full items-center">
           <h1 className="text-3xl md:text-4xl tracking-[0.3em] uppercase text-white">
             TODO

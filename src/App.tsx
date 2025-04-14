@@ -79,7 +79,7 @@ const AppContent = ({
   return (
     <section className="relative min-h-screen font-Josefin font-normal text-base bg-[#FAFAFA] dark:bg-[#171823]">
       {/* Background Image Layer */}
-      <div className="absolute inset-x-0 top-0 h-[200px] overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-[250px] overflow-hidden">
         <img
           src={theme === "light" ? bgMobileLight : bgMobileDark}
           alt="background"
